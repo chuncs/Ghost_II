@@ -52,7 +52,8 @@ public class GhostActivity extends AppCompatActivity {
         AssetManager assetManager = getAssets();
         try {
             InputStream inputStream = assetManager.open("words.txt");
-            dictionary = new SimpleDictionary(inputStream);
+            //dictionary = new SimpleDictionary(inputStream);
+            dictionary = new FastDictionary(inputStream);
         } catch (IOException e) {
             Toast.makeText(this, "Could not load dictionary.", Toast.LENGTH_LONG).show();
         }
@@ -127,9 +128,11 @@ public class GhostActivity extends AppCompatActivity {
         String word = text.getText().toString();
         if (dictionary.isWord(word)) {
             label.setText("Computer won!");
+        //} else if (dictionary.getAnyWordStartingWith(word) == null) {
         } else if (dictionary.getGoodWordStartingWith(word, firstTurn) == null) {
             label.setText("Your challenge accepted! Computer won!");
         } else {
+            //String longerWord = dictionary.getAnyWordStartingWith(word);
             String longerWord = dictionary.getGoodWordStartingWith(word, firstTurn);
             char nextLetter = longerWord.substring(word.length()).charAt(0);
             text.setText(word + String.valueOf(nextLetter));
